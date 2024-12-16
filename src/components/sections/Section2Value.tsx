@@ -2,36 +2,67 @@
 /******************************************************************************
                             IMPORTS
 ******************************************************************************/
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
+
+/******************************************************************************
+                            INTERFACES
+******************************************************************************/
+// Add interfaces if needed
 
 /******************************************************************************
                             COMPONENT
 ******************************************************************************/
 const Section2Value: React.FC = () => {
+  /******************************************************************************
+   *                               HOOKS
+   ******************************************************************************/
   const sectionRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
   const isInView = useInView(sectionRef, { 
     once: false,
     amount: 0.5
   });
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  /******************************************************************************
+   *                               VARIABLES
+   ******************************************************************************/
+  const lineDuration = isMobile ? 2 : 3.5;
+
+  /******************************************************************************
+   *                               RENDER
+   ******************************************************************************/
   return (
     <section ref={sectionRef} className="min-h-screen flex items-center justify-center relative">
       <div className="relative">
-        {/* Top Line */}
+        {/* /******************************************************************************
+                                TOP LINE ANIMATION
+        ******************************************************************************/ }
         <motion.div 
-          className="absolute -top-24 left-0 w-full h-[1px] overflow-hidden"
+          className="absolute -top-24 left-0 w-full h-[1.5px] overflow-hidden"
           style={{ opacity: 0.5 }}
         >
           <motion.div 
             className="h-full bg-white md:w-full w-[75%]"
             initial={{ x: "-75%" }}
             animate={isInView ? { x: "0%" } : { x: "-75%" }}
-            transition={{ duration: 3.5, ease: "easeOut" }}
+            transition={{ duration: lineDuration, ease: "easeOut" }}
           />
         </motion.div>
 
-        {/* Content */}
+        {/* /******************************************************************************
+                                CONTENT SECTION
+        ******************************************************************************/ }
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
@@ -70,16 +101,18 @@ const Section2Value: React.FC = () => {
           </motion.button>
         </motion.div>
 
-        {/* Bottom Line */}
+        {/* /******************************************************************************
+                                BOTTOM LINE ANIMATION
+        ******************************************************************************/ }
         <motion.div 
-          className="absolute -bottom-24 right-0 w-full h-[1px] overflow-hidden"
+          className="absolute -bottom-24 right-0 w-full h-[1.5px] overflow-hidden"
           style={{ opacity: 0.5 }}
         >
           <motion.div 
             className="h-full bg-white md:w-full w-[75%] ml-auto"
             initial={{ x: "75%" }}
             animate={isInView ? { x: "0%" } : { x: "75%" }}
-            transition={{ duration: 3.5, ease: "easeOut" }}
+            transition={{ duration: lineDuration, ease: "easeOut" }}
           />
         </motion.div>
       </div>

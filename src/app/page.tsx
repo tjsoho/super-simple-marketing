@@ -1,7 +1,7 @@
 import React from 'react';
 import ScrollProgress from '@/components/ui/ScrollProgress';
 import ParallaxSection from '@/components/ui/ParallaxSection';
-import Section1Hero from '@/components/sections/Section1Hero';
+import Hero1Experiment from '@/components/sections/Hero1Experiment';
 import Section2Value from '@/components/sections/Section2Value';
 import Section3Trust from '@/components/sections/Section3Trust';
 import Section4Explanation from '@/components/sections/Section4Explanation';
@@ -23,7 +23,7 @@ export default function Home() {
         }}
       >
         <div className="relative z-10">
-          <Section1Hero />
+          <Hero1Experiment />
           <ParallaxSection>
             <Section2Value />
           </ParallaxSection>

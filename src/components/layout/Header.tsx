@@ -4,7 +4,7 @@
 ******************************************************************************/
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
+import Logo from '@/components/ui/Logo';
 
 /******************************************************************************
                             COMPONENT
@@ -41,14 +41,7 @@ const Header: React.FC = () => {
           {/* Content */}
           <div className="container mx-auto px-4 py-4 flex justify-between items-center relative">
             {/* Logo */}
-            <div className="flex items-center">
-              <Image
-                src="/images/logo.png"
-                alt="Logo"
-                width={40}
-                height={40}
-              />
-            </div>
+            <Logo />
 
             {/* CTA Button */}
             <motion.button
