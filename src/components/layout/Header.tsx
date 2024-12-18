@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from '@/components/ui/Logo';
+import { PurchaseButton } from '@/components/ui/PurchaseButton';
 
 /******************************************************************************
                             COMPONENT
@@ -43,14 +44,17 @@ const Header: React.FC = () => {
             {/* Logo */}
             <Logo />
 
-            {/* CTA Button */}
-            <motion.button
+            {/* Purchase Button - replacing the CTA button */}
+            <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-dark-teal text-white px-6 py-2 rounded-full text-sm font-bold"
+              className="w-64"
             >
-              Get Started
-            </motion.button>
+              <PurchaseButton 
+                courseId="perfect-home-page" // Replace with your actual course ID
+                price={47} // Replace with your actual price
+              />
+            </motion.div>
           </div>
         </motion.header>
       )}
