@@ -9,20 +9,30 @@ let stripePromise: Promise<Stripe | null> | null = null
 
 const getStripe = () => {
   if (!stripePromise) {
-    console.log('🔑 Initializing Stripe with key:', publishableKey.substring(0, 10) + '...')
-    stripePromise = loadStripe(publishableKey).then(stripe => {
-      if (stripe) {
-        console.log('✅ Stripe loaded successfully')
-      } else {
-        console.error('❌ Failed to load Stripe')
-      }
-      return stripe
-    }).catch(error => {
-      console.error('❌ Error loading Stripe:', error)
-      return null
-    })
+    console.log('🔑 Initializing Stripe...')
+    stripePromise = loadStripe(publishableKey)
+      .then(stripe => {
+        if (stripe) {
+          console.log('✅ Stripe SDK loaded successfully')
+          return stripe
+        }
+        console.error('❌ Stripe SDK failed to initialize')
+        return null
+      })
+      .catch(error => {
+        console.error('❌ Error loading Stripe:', error.message)
+        return null
+      })
   }
   return stripePromise
 }
 
-export const stripeInstance = getStripe() 
+// Only export the promise
+export const stripeInstance = getStripe()
+
+// Add a way to verify the instance is working
+stripeInstance.then(stripe => {
+  if (stripe) {
+    console.log('💳 Stripe is ready to accept payments')
+  }
+}) 
