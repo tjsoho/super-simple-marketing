@@ -49,7 +49,7 @@ export function PurchaseButton({ courseId, price }: PurchaseButtonProps) {
           value={email}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
           placeholder="Enter your email"
-          className="w-full px-4 py-2 border rounded"
+          className="w-full px-4 py-2 border rounded text-black"
           disabled={isLoading}
           aria-label="Email address"
         />

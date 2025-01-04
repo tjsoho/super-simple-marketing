@@ -5,199 +5,201 @@ import { Dialog } from '@headlessui/react'
 import { stripeInstance } from '@/lib/stripe-client'
 
 interface PaymentModalProps {
-isOpen: boolean
-onClose: () => void
-courseId: string
-email: string
-price: number
+  isOpen: boolean
+  onClose: () => void
+  courseId: string
+  email: string
+  price: number
 }
 
 interface CourseDetails {
-title: string
-price: number
+  title: string
+  price: number
 }
 
 export function PaymentModal({ isOpen, onClose, courseId, email, price }: PaymentModalProps) {
-const [clientSecret, setClientSecret] = useState('')
-const [error, setError] = useState<string | null>(null)
-const [courseDetails, setCourseDetails] = useState<CourseDetails | null>(null)
+  const [clientSecret, setClientSecret] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const [courseDetails, setCourseDetails] = useState<CourseDetails | null>(null)
 
-useEffect(() => {
+  useEffect(() => {
     console.group('💫 Payment Modal Lifecycle')
     console.log('Modal State:', { isOpen, courseId, email, price })
     
     if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
-        console.error('❌ Missing Stripe publishable key')
-        setError('Configuration error')
-        return
+      console.error('❌ Missing Stripe publishable key')
+      setError('Configuration error')
+      return
     }
 
     if (isOpen) {
-    console.group('🚀 Payment Intent Creation')
-    console.log('Request Payload:', {
+      console.group('🚀 Payment Intent Creation')
+      console.log('Request Payload:', {
         courseId,
         email,
         amount: price * 100,
-        currency: 'aud'
-    })
+        currency: 'aud',
+        source: 'EXTERNAL'
+      })
     
-    fetch('https://www.savvybusinesshub.com/api/external/payment/create-intent', {
+      fetch('https://www.savvybusinesshub.com/api/external/payment/create-intent', {
         method: 'POST',
         headers: { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         mode: 'cors',
         body: JSON.stringify({
-        courseId,
-        email,
-        amount: price * 100,
-        currency: 'aud'
+          courseId,
+          email,
+          amount: price * 100,
+          currency: 'aud',
+          source: 'EXTERNAL'
         }),
-    })
+      })
         .then(async (res) => {
-        console.log('📥 Response Headers:', {
+          console.log('📥 Response Headers:', {
             contentType: res.headers.get('content-type'),
             cors: res.headers.get('access-control-allow-origin')
-        })
-        const data = await res.json()
-        console.log('📥 Response Data:', data)
-        
-        if (!res.ok) {
+          })
+          const data = await res.json()
+          console.log('📥 Response Data:', data)
+          
+          if (!res.ok) {
             throw new Error(data.message || 'Failed to create payment intent')
-        }
-        return data
+          }
+          return data
         })
         .then((data) => {
-        console.log('✅ Client Secret:', data.clientSecret ? 'Received' : 'Missing')
-        setClientSecret(data.clientSecret)
-        if (data.course) {
+          console.log('✅ Client Secret:', data.clientSecret ? 'Received' : 'Missing')
+          setClientSecret(data.clientSecret)
+          if (data.course) {
             setCourseDetails(data.course)
-        }
+          }
         })
         .catch((error: Error) => {
-        console.error('❌ Error:', error)
-        setError(error.message)
+          console.error('❌ Error:', error)
+          setError(error.message)
         })
         .finally(() => {
-        console.groupEnd() // End Payment Intent Creation group
+          console.groupEnd()
         })
     }
 
     return () => {
-        console.groupEnd() // End Payment Modal Lifecycle group
+      console.groupEnd()
     }
-}, [isOpen, courseId, email, price])
+  }, [isOpen, courseId, email, price])
 
-if (error) {
+  if (error) {
     return (
-    <Dialog open={isOpen} onClose={onClose} className="relative z-50">
+      <Dialog open={isOpen} onClose={onClose} className="relative z-50">
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
         <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className="mx-auto max-w-md rounded bg-white p-6 w-full">
+          <Dialog.Panel className="mx-auto max-w-md rounded bg-white p-6 w-full">
             <div className="text-red-600 font-medium">Error: {error}</div>
             <button 
-            onClick={onClose}
-            className="mt-4 px-4 py-2 bg-dark-teal text-white rounded hover:bg-teal-700 transition-colors"
+              onClick={onClose}
+              className="mt-4 px-4 py-2 bg-dark-teal text-white rounded hover:bg-teal-700 transition-colors"
             >
-            Close
+              Close
             </button>
-        </Dialog.Panel>
+          </Dialog.Panel>
         </div>
-    </Dialog>
+      </Dialog>
     )
-}
+  }
 
-return (
+  return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
-    <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-    
-    <div className="fixed inset-0 flex items-center justify-center p-4">
+      <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+      
+      <div className="fixed inset-0 flex items-center justify-center p-4">
         <Dialog.Panel className="mx-auto max-w-5xl w-full rounded bg-white">
-        {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b border-dark-teal/20">
+          {/* Header */}
+          <div className="flex justify-between items-center p-6 border-b border-dark-teal/20">
             <Dialog.Title className="text-2xl font-bold text-dark-teal">
-            Complete Your Purchase
+              Complete Your Purchase
             </Dialog.Title>
             <button 
-            onClick={onClose}
-            className="text-dark-teal hover:text-teal-700 transition-colors"
-            aria-label="Close"
+              onClick={onClose}
+              className="text-dark-teal hover:text-teal-700 transition-colors"
+              aria-label="Close"
             >
-            ✕
+              ✕
             </button>
-        </div>
+          </div>
 
-        {/* Two Column Layout */}
-        <div className="flex flex-col md:flex-row">
+          {/* Two Column Layout */}
+          <div className="flex flex-col md:flex-row">
             {/* Left Column - Order Summary */}
             <div className="w-full md:w-2/5 p-6 bg-teal-50/30">
-            <div className="sticky top-6">
+              <div className="sticky top-6">
                 <h3 className="text-xl font-bold text-dark-teal mb-6">Order Summary</h3>
                 <div className="space-y-4">
-                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <div className="bg-white p-4 rounded-lg shadow-sm">
                     <h4 className="font-bold text-dark-teal mb-2">Masterclass Details</h4>
                     <p className="text-dark-teal font-medium">
-                    {courseDetails?.title || 'Loading...'}
+                      {courseDetails?.title || 'Loading...'}
                     </p>
                     <p className="text-2xl font-bold text-dark-teal mt-2">
-                    ${price.toFixed(2)} AUD
+                      ${price.toFixed(2)} AUD
                     </p>
-                </div>
+                  </div>
 
-                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <div className="bg-white p-4 rounded-lg shadow-sm">
                     <h4 className="font-bold text-dark-teal mb-2">Your Details</h4>
                     <p className="text-dark-teal font-medium">
-                    Email: {email}
+                      Email: {email}
                     </p>
-                </div>
+                  </div>
 
-                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <div className="bg-white p-4 rounded-lg shadow-sm">
                     <h4 className="font-bold text-dark-teal mb-2">Secure Payment</h4>
                     <p className="text-dark-teal/80 text-sm">
-                    🔒 Your payment is secured by Stripe, a trusted payment provider used by millions of businesses worldwide.
+                      🔒 Your payment is secured by Stripe, a trusted payment provider used by millions of businesses worldwide.
                     </p>
+                  </div>
                 </div>
-                </div>
-            </div>
+              </div>
             </div>
 
             {/* Right Column - Payment Form */}
             <div className="w-full md:w-3/5 p-6 border-t md:border-t-0 md:border-l border-dark-teal/20">
-            {clientSecret ? (
+              {clientSecret ? (
                 <Elements 
-                stripe={stripeInstance} 
-                options={{
+                  stripe={stripeInstance} 
+                  options={{
                     clientSecret,
                     appearance: {
-                    theme: 'stripe',
-                    variables: {
-                        colorPrimary: '#115e59', // dark-teal color
+                      theme: 'stripe',
+                      variables: {
+                        colorPrimary: '#115e59',
                         borderRadius: '8px',
-                    }
+                      }
                     },
                     loader: 'auto'
-                }}
+                  }}
                 >
-                <CheckoutForm 
+                  <CheckoutForm 
                     onSuccess={onClose} 
                     courseId={courseId} 
                     email={email} 
                     price={price}
-                />
+                  />
                 </Elements>
-            ) : (
+              ) : (
                 <div className="text-center py-8">
-                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-dark-teal mx-auto mb-4"></div>
-                <p className="text-dark-teal font-medium">Loading payment form...</p>
+                  <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-dark-teal mx-auto mb-4"></div>
+                  <p className="text-dark-teal font-medium">Loading payment form...</p>
                 </div>
-            )}
+              )}
             </div>
-        </div>
+          </div>
         </Dialog.Panel>
-    </div>
+      </div>
     </Dialog>
-)
+  )
 }
 
 type PaymentElementChangeEvent = {
@@ -237,6 +239,7 @@ function CheckoutForm({ onSuccess, courseId, email, price }: {
     event.preventDefault()
 
     if (!stripe || !elements) {
+      console.error('❌ Stripe or Elements not loaded')
       return
     }
 
@@ -244,31 +247,34 @@ function CheckoutForm({ onSuccess, courseId, email, price }: {
     setError(null)
 
     try {
+      console.log('🚀 Starting payment submission...')
+      
       const { error: submitError } = await elements.submit()
       if (submitError) {
+        console.error('❌ Submit error:', submitError)
         setError(submitError.message ?? 'Payment failed')
         setProcessing(false)
         return
       }
 
+      console.log('✅ Payment submission successful, confirming payment...')
+
       const { error: paymentError } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          payment_method_data: {
-            billing_details: {
-              email: email,
-            },
-          },
-          return_url: `${window.location.origin}/thank-you?courseId=${courseId}&email=${email}`,
+          return_url: `https://www.savvybusinesshub.com/`,
         },
       })
 
       if (paymentError) {
+        console.error('❌ Payment error:', paymentError)
         setError(paymentError.message ?? 'Payment failed')
       } else {
+        console.log('✅ Payment successful')
         onSuccess()
       }
     } catch (error: unknown) {
+      console.error('❌ Unexpected error:', error)
       const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred'
       setError(errorMessage)
     } finally {
@@ -278,8 +284,6 @@ function CheckoutForm({ onSuccess, courseId, email, price }: {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <h3 className="text-xl font-bold text-dark-teal mb-6">Payment Details</h3>
-      
       <div className="min-h-[300px] bg-gray-50 p-4 rounded-md">
         <PaymentElement 
           options={{
@@ -325,4 +329,4 @@ function CheckoutForm({ onSuccess, courseId, email, price }: {
       </button>
     </form>
   )
-} 
+}
