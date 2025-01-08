@@ -51,7 +51,7 @@ const Header: React.FC = () => {
               className="w-64"
             >
               <PurchaseButton 
-                courseId="perfect-home-page" // Replace with your actual course ID
+                courseId="save-time-and-make-money" // Replace with your actual course ID
                 price={47} // Replace with your actual price
               />
             </motion.div>
