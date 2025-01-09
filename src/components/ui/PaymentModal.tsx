@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { Dialog } from '@headlessui/react'
 import { stripeInstance } from '@/lib/stripe-client'
-import { source } from 'framer-motion/client'
+// import { source } from 'framer-motion/client'
 
 interface PaymentModalProps {
 isOpen: boolean
