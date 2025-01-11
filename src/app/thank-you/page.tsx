@@ -43,11 +43,13 @@ const ThankYouPage = () => {
             Thank you for your purchase!
           </h1>
           <p className="text-xl text-gray-700 mb-6">
-            Please wait while we redirect you to the course page.
+            Please wait while we redirect you to your Masterclass page.
             <br></br>
             <br></br>
-            You will need to create an account with the same email address you
-            used to purchase the course.
+            <span className="font-bold">
+              Please create a new account with the same email address to access
+              the masterclass.
+            </span>
           </p>
 
           {/* Countdown Display */}
@@ -57,7 +59,7 @@ const ThankYouPage = () => {
 
           {/* Immediate Redirect Button */}
           <button
-            onClick={redirectToHub}
+            // onClick={redirectToHub}
             className="bg-dark-teal text-white px-6 py-2 rounded-lg 
                      hover:bg-teal-700 transition-colors duration-200
                      font-medium text-base"

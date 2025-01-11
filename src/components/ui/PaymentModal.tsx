@@ -8,6 +8,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { Dialog } from "@headlessui/react";
 import { stripeInstance } from "@/lib/stripe-client";
+import Image from "next/image";
 // import { source } from 'framer-motion/client'
 
 interface PaymentModalProps {
@@ -136,7 +137,7 @@ export function PaymentModal({
 
   if (error) {
     return (
-      <Dialog open={isOpen} onClose={handleClose} className="relative z-50">
+      <Dialog open={isOpen} onClose={handleClose} className="relative z-50 ">
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <Dialog.Panel className="mx-auto max-w-md rounded bg-white p-6 w-full">
@@ -159,125 +160,154 @@ export function PaymentModal({
       onClose={handleCloseOnCross}
       className="relative z-50"
     >
-      <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+      <div className="fixed inset-0 bg-black/30 " aria-hidden="true" />
 
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className="mx-auto max-w-5xl w-full rounded bg-white">
+        <Dialog.Panel className="mx-auto max-w-5xl w-full rounded bg-white max-h-[90vh] flex flex-col">
           {/* Header */}
-          <div className="flex justify-between items-center p-6 border-b border-dark-teal/20">
-            <Dialog.Title className="text-2xl font-bold text-dark-teal">
+          <div className="flex justify-between items-center p-6 bg-gradient-to-r from-dark-teal to-teal-700 text-white">
+            <Dialog.Title className="text-2xl font-poppins font-bold">
               Complete Your Purchase
             </Dialog.Title>
             <button
               onClick={handleCloseOnCross}
-              className="text-dark-teal hover:text-teal-700 transition-colors"
+              className="text-white/80 hover:text-white transition-colors"
               aria-label="Close"
             >
               ✕
             </button>
           </div>
 
-          {/* Two Column Layout */}
-          <div className="flex flex-col md:flex-row">
-            {/* Left Column - Order Summary */}
-            <div className="w-full md:w-2/5 p-6 bg-teal-50/30">
-              <div className="sticky top-6">
-                <h3 className="text-xl font-bold text-dark-teal mb-6">
-                  Order Summary
-                </h3>
-                <div className="space-y-4">
-                  <div className="bg-white p-4 rounded-lg shadow-sm">
-                    <h4 className="font-bold text-dark-teal mb-2">
-                      Masterclass Details
-                    </h4>
-                    <p className="text-dark-teal font-medium">
-                      {courseDetails?.title || "Loading..."}
-                    </p>
-                    <p className="text-2xl font-bold text-dark-teal mt-2">
-                      ${price.toFixed(2)} AUD
-                    </p>
-                  </div>
+          {/* Make this div scrollable */}
+          <div className="flex-1 overflow-auto">
+            {/* Two Column Layout */}
+            <div className="flex flex-col md:flex-row">
+              {/* Left Column - Order Summary */}
+              <div className="w-full md:w-2/5 p-6 bg-gray-50">
+                <div className="md:sticky md:top-6">
+                  <h3 className="text-lg font-karla font-bold text-gray-800 mb-6 uppercase tracking-wide">
+                    Order Summary
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                      <h4 className="font-karla font-bold text-gray-700 mb-2 text-[20px] uppercase tracking-wider">
+                        Masterclass Details
+                      </h4>
+                      <p className="font-poppins text-dark-teal font-bold text-lg italic">
+                        {courseDetails?.title || "Save Time & Make Money"}
+                      </p>
+                      <p className="text-2xl font-poppins  text-dark-teal mt-2">
+                        ${price.toFixed(2)}{" "}
+                        <span className="text-base font-normal text-gray-600">
+                          AUD
+                        </span>
+                      </p>
+                    </div>
 
-                  <div className="bg-white p-4 rounded-lg shadow-sm">
-                    <h4 className="font-bold text-dark-teal mb-2">
-                      Your Details
-                    </h4>
-                    <p className="text-dark-teal font-medium">Email: {email}</p>
-                  </div>
+                    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                      <h4 className="font-karla font-bold text-gray-700 mb-2 text-sm uppercase tracking-wider">
+                        Your Details
+                      </h4>
+                      <p className="text-gray-800 font-medium text-[16px]">
+                        Email: <span className="text-dark-teal">{email}</span>
+                      </p>
+                    </div>
 
-                  <div className="bg-white p-4 rounded-lg shadow-sm">
-                    <h4 className="font-bold text-dark-teal mb-2">
-                      Secure Payment
-                    </h4>
-                    <p className="text-dark-teal/80 text-sm">
-                      🔒 Your payment is secured by Stripe, a trusted payment
-                      provider used by millions of businesses worldwide.
-                    </p>
+                    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                      <h4 className="font-karla font-bold text-gray-700 mb-2 text-sm uppercase tracking-wider">
+                        Secure Payment
+                      </h4>
+                      <p className="text-gray-600 text-sm leading-relaxed mb-3">
+                        🔒 Your payment is secured by Stripe, a trusted payment
+                        provider used by millions of businesses worldwide.
+                      </p>
+                      <div className="flex items-center justify-start space-x-2 pt-2 border-t border-gray-100">
+                        <span className="text-gray-500 text-sm">
+                          Powered by
+                        </span>
+                        <Image
+                          src="/images/stripe-logo.png"
+                          alt="Stripe"
+                          width={60}
+                          height={24}
+                          className="object-contain"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Right Column - Payment Form */}
-            <div className="w-full md:w-3/5 p-6 border-t md:border-t-0 md:border-l border-dark-teal/20">
-              {/* Add email input if we don't have a client secret yet */}
-              {!clientSecret && (
-                <div className="bg-white p-4 rounded-lg shadow-sm mt-4">
-                  <h4 className="font-bold text-dark-teal mb-2">Your Email</h4>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      setEmailError(null);
-                    }}
-                    placeholder="Enter your email"
-                    className="w-full px-4 py-2 border rounded text-black mb-2"
-                    aria-label="Email address"
-                  />
-                  {emailError && (
-                    <p className="text-red-500 text-sm">{emailError}</p>
-                  )}
-                </div>
-              )}
+              {/* Right Column - Payment Form */}
+              <div className="w-full md:w-3/5 p-6 border-t md:border-t-0 md:border-l border-gray-200">
+                {/* Email Input Section */}
+                {!clientSecret && (
+                  <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <h4 className="font-karla font-bold text-gray-800 mb-4 text-lg">
+                      Enter Your Email
+                    </h4>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        setEmailError(null);
+                      }}
+                      placeholder="your@email.com"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-800 
+                                placeholder:text-gray-400 focus:outline-none focus:ring-2 
+                                focus:ring-dark-teal focus:border-transparent"
+                      aria-label="Email address"
+                    />
+                    {emailError && (
+                      <p className="text-red-500 text-sm mt-2 font-medium">
+                        {emailError}
+                      </p>
+                    )}
+                  </div>
+                )}
 
-              {/* Only show payment form if we have a valid email and client secret */}
-              {!email || emailError ? (
-                <div className="text-center py-8">
-                  <p className="text-dark-teal font-medium">
-                    Please enter your email to continue
-                  </p>
-                </div>
-              ) : clientSecret ? (
-                <Elements
-                  stripe={stripeInstance}
-                  options={{
-                    clientSecret,
-                    appearance: {
-                      theme: "stripe",
-                      variables: {
-                        colorPrimary: "#115e59",
-                        borderRadius: "8px",
+                {/* Payment Form Section */}
+                {!email || emailError ? (
+                  <div className="text-center py-8">
+                    <p className="text-gray-600 font-medium">
+                      Please enter your email to continue
+                    </p>
+                  </div>
+                ) : clientSecret ? (
+                  <Elements
+                    stripe={stripeInstance}
+                    options={{
+                      clientSecret,
+                      appearance: {
+                        theme: "stripe",
+                        variables: {
+                          colorPrimary: "#115e59",
+                          colorBackground: "#ffffff",
+                          colorText: "#374151",
+                          borderRadius: "8px",
+                          fontFamily: "Inter, system-ui, sans-serif",
+                        },
                       },
-                    },
-                    loader: "auto",
-                  }}
-                >
-                  <CheckoutForm
-                    onSuccess={onClose}
-                    courseId={courseId}
-                    email={email}
-                    price={price}
-                  />
-                </Elements>
-              ) : (
-                <div className="text-center py-8">
-                  <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-dark-teal mx-auto mb-4"></div>
-                  <p className="text-dark-teal font-medium">
-                    Loading payment form...
-                  </p>
-                </div>
-              )}
+                      loader: "auto",
+                    }}
+                  >
+                    <CheckoutForm
+                      onSuccess={onClose}
+                      courseId={courseId}
+                      email={email}
+                      price={price}
+                    />
+                  </Elements>
+                ) : (
+                  <div className="text-center py-8">
+                    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-dark-teal mx-auto mb-4"></div>
+                    <p className="text-gray-600 font-medium">
+                      Loading payment form...
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </Dialog.Panel>

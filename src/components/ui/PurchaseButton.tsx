@@ -21,7 +21,7 @@ export function PurchaseButton({ courseId, price }: PurchaseButtonProps) {
     <>
       <button
         onClick={handlePurchase}
-        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 
+        className="bg-dark-teal text-white px-8 py-2 rounded-full text-xl font-bold border-2 border-white 
                    transition-colors duration-200"
         type="button"
       >
