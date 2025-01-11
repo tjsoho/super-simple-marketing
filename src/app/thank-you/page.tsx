@@ -1,6 +1,25 @@
 "use client";
 
+import { useState, useEffect } from "react";
+
 const ThankYouPage = () => {
+  const [countdown, setCountdown] = useState(15);
+
+  const redirectToHub = () => {
+    window.location.href = "https://www.savvybusinesshub.com";
+  };
+
+  useEffect(() => {
+    if (countdown > 0) {
+      const timer = setTimeout(() => {
+        setCountdown(countdown - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else {
+      redirectToHub();
+    }
+  }, [countdown]);
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Background image with blur */}
@@ -10,7 +29,7 @@ const ThankYouPage = () => {
           backgroundImage: `url('/images/pool.jpg')`,
           backgroundColor: "rgba(0, 0, 0, 0.5)",
           backgroundBlendMode: "overlay",
-          transform: "scale(1.1)", // Prevents blur edges from showing
+          transform: "scale(1.1)",
         }}
       />
 
@@ -30,6 +49,21 @@ const ThankYouPage = () => {
             You will need to create an account with the same email address you
             used to purchase the course.
           </p>
+
+          {/* Countdown Display */}
+          <p className="text-lg text-dark-teal font-medium mb-6">
+            Redirecting in {countdown} seconds...
+          </p>
+
+          {/* Immediate Redirect Button */}
+          <button
+            onClick={redirectToHub}
+            className="bg-dark-teal text-white px-6 py-2 rounded-lg 
+                     hover:bg-teal-700 transition-colors duration-200
+                     font-medium text-base"
+          >
+            Take me there now
+          </button>
         </div>
       </div>
     </div>
