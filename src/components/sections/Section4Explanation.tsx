@@ -52,22 +52,15 @@ const Section4Explanation: React.FC = () => {
         >
           <h2 className="text-white uppercase mb-6">The New Way</h2>
           <p className="text-light-grey mb-8">
-            Trying to juggle a million tasks? This isn&apos;t about more work;
+            This isn&apos;t about more work;
             it&apos;s about smarter work.
             <br></br>
             <br></br>Learn how to create one amazing piece of content and
             strategically use it across all your platforms, saving you hours and
-            unlocking a more fulfilling work-life balance. <br></br>
-            <br></br>Imagine: More time for what matters, more consistent
-            income, and more freedom to design the life you want!
+            giving you back time for a more fulfilling work-life balance. <br></br>
+            <br></br>What would your life look like if you had more time, more income, and more freedom? Imagine the possibilities…
           </p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-dark-teal text-white px-8 py-4 rounded-full text-xl font-bold"
-          >
-            Learn More
-          </motion.button>
+         
         </motion.div>
       </div>
 
@@ -110,25 +103,16 @@ const Section4Explanation: React.FC = () => {
           className="w-full lg:w-2/5 px-4 lg:p-12"
         >
           <h2 className="text-white uppercase mb-6">
-            The Power of<br></br> 1 Piece Marketing
+            The Power of<br></br> ONE Piece Marketing
           </h2>
           <p className="text-light-grey mb-8">
             You don&apos;t need a marketing degree or years of experience to
             master this strategy.<br></br>
-            <br></br> Even if you&apos;re an AI sceptic, this course will guide
-            you step-by-step, making the power of AI accessible and easy to
-            integrate into your existing workflow. <br></br>
+            <br></br> You also don&apos;t need to spend hours learning a new skill. Just 20 minutes, a coffee or tea to accompany you and you&apos;re good to go. <br></br>
             <br></br>
-            No more struggling with complicated prompts; learn to harness
-            AI&apos;s capabilities simply and effectively.
+            No more hopeful marketing campaigns that don&apos;t work. Wave goodbye to those wasteful hours spent thinking about what to post, what to email, and what to blog about.
           </p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-dark-teal text-white px-8 py-4 rounded-full text-xl font-bold"
-          >
-            Get Started
-          </motion.button>
+         
         </motion.div>
 
         <motion.div

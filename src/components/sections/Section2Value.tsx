@@ -4,6 +4,7 @@
 ******************************************************************************/
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
+import { PurchaseButton } from "@/components/ui/PurchaseButton";
 
 /******************************************************************************
                             INTERFACES
@@ -19,9 +20,9 @@ const Section2Value: React.FC = () => {
    ******************************************************************************/
   const sectionRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
-  const isInView = useInView(sectionRef, { 
+  const isInView = useInView(sectionRef, {
     once: false,
-    amount: 0.5
+    amount: 0.5,
   });
 
   useEffect(() => {
@@ -30,8 +31,8 @@ const Section2Value: React.FC = () => {
     };
 
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   /******************************************************************************
@@ -43,16 +44,19 @@ const Section2Value: React.FC = () => {
    *                               RENDER
    ******************************************************************************/
   return (
-    <section ref={sectionRef} className="min-h-screen flex items-center justify-center relative">
+    <section
+      ref={sectionRef}
+      className="min-h-screen flex items-center justify-center relative"
+    >
       <div className="relative">
         {/* /******************************************************************************
                                 TOP LINE ANIMATION
-        ******************************************************************************/ }
-        <motion.div 
+        ******************************************************************************/}
+        <motion.div
           className="absolute -top-24 left-0 w-full h-[1.5px] overflow-hidden"
           style={{ opacity: 0.5 }}
         >
-          <motion.div 
+          <motion.div
             className="h-full bg-white md:w-full w-[75%]"
             initial={{ x: "-75%" }}
             animate={isInView ? { x: "0%" } : { x: "-75%" }}
@@ -62,7 +66,7 @@ const Section2Value: React.FC = () => {
 
         {/* /******************************************************************************
                                 CONTENT SECTION
-        ******************************************************************************/ }
+        ******************************************************************************/}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
@@ -83,32 +87,34 @@ const Section2Value: React.FC = () => {
             animate={{ opacity: isInView ? 1 : 0 }}
             transition={{ delay: 0.3 }}
           >
-            Imagine a business that runs smoothly, effortlessly generating income
-            while giving you the time and freedom to enjoy life. This 20-minute
-            masterclass unveils a simple yet powerful content strategy to achieve
-            just that.
+            Imagine a business that runs smoothly, effortlessly generating
+            income while giving you the time and freedom to enjoy life. This
+            20-minute masterclass teaches you a simple yet powerful content
+            strategy to achieve just that.
           </motion.p>
 
-          <motion.button
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: isInView ? 1 : 0 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
             transition={{ delay: 0.4 }}
-            className="bg-dark-teal text-white px-8 py-4 rounded-full text-xl font-bold"
           >
-            Start Designing
-          </motion.button>
+            <PurchaseButton
+              courseId="save-time-make-money"
+              price={47}
+              title="I'M READY!"
+              size="large"
+            />
+          </motion.div>
         </motion.div>
 
         {/* /******************************************************************************
                                 BOTTOM LINE ANIMATION
-        ******************************************************************************/ }
-        <motion.div 
+        ******************************************************************************/}
+        <motion.div
           className="absolute -bottom-24 right-0 w-full h-[1.5px] overflow-hidden"
           style={{ opacity: 0.5 }}
         >
-          <motion.div 
+          <motion.div
             className="h-full bg-white md:w-full w-[75%] ml-auto"
             initial={{ x: "75%" }}
             animate={isInView ? { x: "0%" } : { x: "75%" }}

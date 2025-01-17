@@ -4,9 +4,16 @@ import { PaymentModal } from "./PaymentModal";
 interface PurchaseButtonProps {
   courseId: string;
   price: number;
+  title?: string;
+  size?: "small" | "large";
 }
 
-export function PurchaseButton({ courseId, price }: PurchaseButtonProps) {
+export function PurchaseButton({
+  courseId,
+  price,
+  title = "Purchase for $47",
+  size = "small",
+}: PurchaseButtonProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handlePurchase = () => {
@@ -17,15 +24,18 @@ export function PurchaseButton({ courseId, price }: PurchaseButtonProps) {
     setIsModalOpen(false);
   };
 
+  const buttonStyles =
+    size === "large" ? "px-12 py-4 text-2xl" : "px-8 py-2 text-xl";
+
   return (
     <>
       <button
         onClick={handlePurchase}
-        className="bg-dark-teal text-white px-8 py-2 rounded-full text-xl font-bold border-2 border-white 
-                   transition-colors duration-200"
+        className={`bg-dark-teal text-white rounded-full font-bold border-2 border-white 
+                   transition-colors duration-200 ${buttonStyles}`}
         type="button"
       >
-        Purchase for ${price}
+        {title}
       </button>
 
       <PaymentModal

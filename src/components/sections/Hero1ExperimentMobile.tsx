@@ -49,8 +49,8 @@ const Hero1ExperimentMobile: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          Create once, use everywhere. Save time and maximize your impact
-          with our proven content strategy.
+          Create once, use everywhere. Save time and maximize your impact with
+          our proven content strategy.
         </motion.p>
 
         <motion.button
@@ -68,4 +68,4 @@ const Hero1ExperimentMobile: React.FC = () => {
   );
 };
 
-export default Hero1ExperimentMobile; 
+export default Hero1ExperimentMobile;

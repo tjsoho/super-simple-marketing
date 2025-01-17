@@ -1,168 +1,76 @@
 "use client";
-/******************************************************************************
-                            IMPORTS
-******************************************************************************/
-import React, { useState, useEffect } from "react";
+
+import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Hero1ExperimentMobile from './Hero1ExperimentMobile';
+import { PurchaseButton } from "../ui/PurchaseButton";
 
-/******************************************************************************
-                            INTERFACES
-******************************************************************************/
-// Add interfaces if needed
-
-/******************************************************************************
-                            COMPONENT
-******************************************************************************/
 const Hero1Experiment: React.FC = () => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  if (isMobile) {
-    return <Hero1ExperimentMobile />;
-  }
-
-  /******************************************************************************
-   *                               HOOKS
-   ******************************************************************************/
-  // Add hooks if needed
-
-  /******************************************************************************
-   *                               FUNCTIONS
-   ******************************************************************************/
-  // Add functions if needed
-
-  /******************************************************************************
-   *                               RENDER
-   ******************************************************************************/
   return (
-    <section className="min-h-screen relative flex items-center justify-center">
-      {/* /******************************************************************************
-                                BACKGROUND GRADIENT
-      ******************************************************************************/}
+    <section className="min-h-screen relative">
+      {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-dark-teal to-sand opacity-10" />
 
-      {/* /******************************************************************************
-                                CONTENT CONTAINER
-      ******************************************************************************/}
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-          {/* /******************************************************************************
-                                LEFT CONTENT SECTION
-          ******************************************************************************/}
-          <div className="w-full lg:w-1/2 text-center ">
+      {/* Main Container */}
+      <div className="flex flex-col lg:flex-row min-h-screen relative z-10">
+        {/* Left Content Section */}
+        <div className="w-full lg:w-1/2 flex items-center justify-center px-4 py-8 lg:py-0">
+          <div className="max-w-2xl text-center">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="lg:text-6xl font-bold text-dark-teal mb-6"
+              className="text-4xl lg:text-6xl font-bold text-dark-teal mb-6 px-4 lg:px-0"
             >
-              Save Time & Make Money With 1 Piece of Content
+              Fun & Easy Marketing That Works
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl lg:text-2xl text-dark-teal/80 mb-8"
+              className="text-lg lg:text-2xl text-dark-teal/80 mb-8 px-4 lg:px-0"
             >
-              Create once, use everywhere. Save time and maximize your impact
-              with our proven content strategy.
+              <span className="font-bold">Save time</span> and{" "}
+              <span className="font-bold">make money</span> with just{" "}
+              <span className="font-bold">ONE piece of content</span>. A super
+              simple, fun strategy that multiplies your reach. This 20-minute
+              masterclass will change your marketing forever.
             </motion.p>
 
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-dark-teal text-white px-8 py-4 rounded-full text-xl font-bold border-2 border-white"
-            >
-              The Best $47 You&apos;ll Ever Spend
-            </motion.button>
-          </div>
-
-          {/* /******************************************************************************
-                                OH TEXT MASK SECTION
-          ******************************************************************************/}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="w-full lg:w-1/2 h-[600px] relative flex items-end justify-center"
-          >
-            <svg className="w-full h-full absolute" viewBox="0 0 600 400">
-              <defs>
-                <mask id="textMaskExperiment">
-                  <rect width="100%" height="100%" fill="black" />
-                  <text
-                    x="50%"
-                    y="39%"
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    fill="white"
-                    fontSize="290"
-                    fontFamily="var(--font-poppins)"
-                    fontWeight="900"
-                    letterSpacing="0"
-                  >
-                    YES
-                  </text>
-                  <text
-                    x="50%"
-                    y="75.28%"
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    fill="white"
-                    fontSize="140"
-                    fontFamily="var(--font-poppins)"
-                    fontWeight="900"
-                    letterSpacing="0"
-                  >
-                    PLEASE
-                  </text>
-                </mask>
-              </defs>
-
-              <foreignObject
-                width="100%"
-                height="100%"
-                mask="url(#textMaskExperiment)"
-              >
-                <div className="w-full h-full relative overflow-hidden">
-                  <Image
-                    src="/images/pool.jpg"
-                    alt="Image masked within OH text"
-                    fill
-                    className="object-cover object-center animate-panZoom"
-                    priority
-                    style={{
-                      transformOrigin: "top left",
-                      animation: "panZoom 15s ease-in-out infinite alternate",
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-white/20" />
-                </div>
-              </foreignObject>
-
-              <line
-                x1="0%"
-                y1="60%"
-                x2="100%"
-                y2="60%"
-                stroke="white"
-                strokeWidth="1"
+            {/* Button Container */}
+            <div className="space-y-4 px-4 lg:px-0">
+              <PurchaseButton
+                courseId="save-time-make-money"
+                price={47}
+                title="The Best $47 Ever!"
+                size="large"
               />
-            </svg>
+              <p className="text-dark-teal/60 italic text-base lg:text-lg">
+                So easy, you&apos;ll wonder why you didn&apos;t do this sooner.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Right/Bottom Image Section */}
+        <div className="w-full lg:w-1/2 flex items-center justify-center p-4 lg:px-8 order-last">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl max-w-2xl lg:max-w-none"
+          >
+            <Image
+              src="/images/easypeasy.jpg"
+              alt="Easy Peasy Content Strategy"
+              fill
+              className="object-cover rounded-2xl hover:scale-105 transition-transform duration-700"
+              style={{ objectPosition: "50% 70%" }}
+              priority
+            />
+            {/* Subtle gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-dark-teal/10 to-transparent rounded-2xl" />
           </motion.div>
         </div>
       </div>
